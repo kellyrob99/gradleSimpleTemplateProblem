@@ -4,6 +4,7 @@
 !.gitignore
 target/*
 classes/*
+build/
 *.iml
 *.ipr
 *.iws
