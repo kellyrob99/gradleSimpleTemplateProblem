@@ -1,0 +1,20 @@
+apply plugin: 'java-base'
+
+import org.apache.tools.ant.filters.ExpandProperties
+
+["test"].each() { env ->
+    task("configuration$env", type: Copy) {
+        def props = new Properties()
+        new File("src/main/filters/filter-${env}.properties").withInputStream {
+            stream -> props.load(stream)
+        }
+        props.each() { k, v ->
+            println "---> ${k} --> ${v}"
+            ant.properties[k] = v
+        }
+
+        from("src/main/config")
+        into "build/properties/$env"
+        filter(ExpandProperties, project: ant.project)
+    }
+}
